@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div >
     <div class="wrapper d-flex">
       <div class="sidebar">
-        <p class="myproject px-3">Dashboard</p>
+        <p class="myproject px-3 ">Dashboard</p>
         <ul>
           <li><a href="#"> Admin</a></li>
-          <li><a href="#"> School</a></li>
+          <li><router-link to="/school"> School</router-link></li>
           <li><a href="#">Department</a></li>
           <li><a href="#">Courses</a></li>
           <li><a href="#">Lecturer</a></li>
