@@ -94,9 +94,10 @@ export default {
         setTimeout(() => {
           location.reload()
         }, 1000)
-      }
-      if (!this.errors.length) {
-      }
+      }else{
+		  this.$router.push('/homeAdmin')
+	  }
+    
     },
     showPassword () {
       if (this.type === 'password') {

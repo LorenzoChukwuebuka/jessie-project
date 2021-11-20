@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+ 
 import {
   VBHoverPlugin,
   VBPopoverPlugin,
@@ -23,7 +24,8 @@ import {
   SpinnerPlugin,
   IconsPlugin,
   TabsPlugin,
-  CarouselPlugin
+  CarouselPlugin,
+  CalendarPlugin
 } from 'bootstrap-vue'
 import loader from 'vue-ui-preloader'
 import VueTelInput from 'vue-tel-input'
@@ -48,6 +50,7 @@ Vue.use(VBPopoverPlugin)
 Vue.use(VBHoverPlugin)
 Vue.use(NavPlugin)
 Vue.use(IconsPlugin)
+Vue.use(CalendarPlugin)
 //Vue.component('b-icon', BIconChevronBarDown, BIconChevronBarUp, BIcon)
 Vue.config.productionTip = false
 
