@@ -6,7 +6,7 @@
         <div class="container col-8 offset-3">
           <h4 class="text-white text-center">Add Department</h4>
 
-          <div class="input-group mb-3">
+          <div class="input-group row col-sm-8 w-50  mb-3">
             <button
               v-b-modal.modal-1
               class="btn btn-outline-secondary"
@@ -19,7 +19,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Search School"
+              placeholder="Search Department"
               aria-label="Username"
               aria-describedby="basic-addon1"
             />
@@ -67,7 +67,7 @@
           aria-describedby="inputGroup-sizing-sm"
         />
       </div>
-      <button class="btn btn-primary"> Submit</button>
+      <button class="btn btn-primary">Submit</button>
     </b-modal>
   </main>
 </template>
