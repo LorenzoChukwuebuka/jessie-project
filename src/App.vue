@@ -5,21 +5,13 @@
 </template>
 <script>
 export default {
-  mounted(){
-    this.$http.get('https://endpoint.cavierstays.com/home')
-    .then(res=>{
-      console.log(res.data)
-    })
-  }
+  mounted () {}
 }
 </script>
 <style>
 body {
-   background-color: rgb(16, 32, 41) !important;
+  background-color: rgb(16, 32, 41) !important;
   color: ghostwhite;
   font-family: Arial, Helvetica, sans-serif;
- 
 }
-
-
 </style>

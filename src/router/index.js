@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import homeAdmin from '../views/Admin/home.vue'
 import school from '../views/Admin/school.vue'
 import dept from '../views/Admin/department.vue'
+import course from '../views/Admin/course.vue'
+import lecturer from '../views/Admin/lecturers.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +29,16 @@ const routes = [
     path: '/dept',
     name: 'dept',
     component: dept
+  },
+  {
+    path: '/course',
+    name: 'course',
+    component: course
+  },
+  {
+    path: '/lecturer',
+    name: 'lecturer',
+    component:  lecturer
   },
   {
     path: '/about',

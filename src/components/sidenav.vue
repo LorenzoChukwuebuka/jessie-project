@@ -7,8 +7,8 @@
           <li><a href="#"> Admin</a></li>
           <li><router-link to="/school"> School</router-link></li>
           <li><router-link to="/dept">Department</router-link></li>
-          <li><a href="#">Courses</a></li>
-          <li><a href="#">Lecturer</a></li>
+          <li><router-link to="/course">Courses</router-link></li>
+          <li><router-link to="/lecturer">Lecturer</router-link></li>
           <li><a href="#">Students</a></li>
           <li><a href="#">Enroll Students biometrics</a></li>
         </ul>
