@@ -22,9 +22,10 @@
               placeholder="Search School"
               aria-label="Username"
               aria-describedby="basic-addon1"
+              v-model="search"
             />
           </div>
-
+          <h4 class="text-white text-center">Schools</h4>
           <table class="table mt-5 text-white" v-if="schools.length != 0">
             <thead>
               <tr>
@@ -34,7 +35,7 @@
                 <th scope="col">Delete</th>
               </tr>
             </thead>
-            <tbody v-for="(sch, index) in schools" :key="index" :value="sch.Id">
+            <tbody v-for="(sch, index) in filterSchool" :key="index" :value="sch.Id">
               <tr>
                 <td>{{ index + 1 }}</td>
                 <td>{{ sch.school }}</td>
@@ -109,11 +110,26 @@ export default {
       edit: {
         school: '',
         Id: ''
-      }
+      },
+      search: ''
     }
   },
   mounted () {
     this.getSchool()
+  },
+  computed: {
+    filterSchool () {
+      if (this.search) {
+        return this.schools.filter(item => {
+          return this.search
+            .toLowerCase()
+            .split(' ')
+            .every(v => item.school.toLowerCase().includes(v))
+        })
+      } else {
+        return this.schools
+      }
+    }
   },
   methods: {
     submit (e) {
@@ -169,7 +185,10 @@ export default {
     },
     update () {
       this.$http
-        .put(`http://localhost/JessieProject/school?id=${this.edit.Id}`, this.edit)
+        .put(
+          `http://localhost/JessieProject/school?id=${this.edit.Id}`,
+          this.edit
+        )
         .then(res => {
           if (res.data.message === 'successful') {
             this.$swal({ icon: 'success', text: 'Updated succesfully' })

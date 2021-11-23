@@ -24,7 +24,7 @@
               aria-describedby="basic-addon1"
             />
           </div>
-
+          <h4 class="text-white text-center">Courses</h4>
           <table class="table mt-5 text-white" v-if="courses.length != 0">
             <thead>
               <tr>

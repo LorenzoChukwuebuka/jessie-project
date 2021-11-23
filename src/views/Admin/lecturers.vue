@@ -24,49 +24,82 @@
               aria-describedby="basic-addon1"
             />
           </div>
-
+          <h4 class="text-white text-center">Lecturers</h4>
           <table class="table mt-5 text-white">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Name</th>
+                <th scope="col">Course code</th>
+                <th scope="col">Course</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody
+              v-for="(lecturer, index) in lecturers"
+              :key="index"
+              :value="lecturer.lid"
+            >
               <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
+                <td>{{ index + 1 }}</td>
+                <td>{{ lecturer.name }}</td>
+                <td>{{ lecturer.courseCode }}</td>
+                <td>{{ lecturer.course }}</td>
+                <td>
+                  <b-icon
+                    icon="pen"
+                    variant="success"
+                    v-b-modal.modal-2
+                  ></b-icon>
+                </td>
+                <td>
+                  <b-icon
+                    icon="trash"
+                    variant="danger"
+                    @click="deletelecturer(lecturer.lid)"
+                  ></b-icon>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
+    <!-- Add modal --->
     <b-modal id="modal-1" hide-footer title="Add lecturers">
       <label class="mb-2 "> Name </label>
       <div class="input-group input-group-sm mb-3">
         <input
+          v-model="form.name"
           type="text"
           class="form-control"
           aria-label="Sizing example input"
           aria-describedby="inputGroup-sizing-sm"
         />
       </div>
+
+      <label class="mb-2 "> School </label>
+      <b-form-select
+        class="px-2 py-2 pb-2 mt-2 mb-3 w-100"
+        v-model="form.school"
+        @change="getDept"
+      >
+        <template #first>
+          <b-form-select-option :value="null" placeholder="Department" disabled
+            >-- select school --</b-form-select-option
+          >
+        </template>
+        <option
+          class="px-2 py-2"
+          v-for="school in schools"
+          :key="school.Id"
+          :value="school.Id"
+        >
+          {{ school.school }}
+        </option>
+      </b-form-select>
+
       <label class="mb-2 "> Department </label>
       <b-form-select
         class="px-2 py-2 pb-2 mt-2 mb-3 w-100"
@@ -107,30 +140,127 @@
           {{ lvls.level }}
         </option>
       </b-form-select>
+
+      <hr />
+
+      <div class="form-check">
+        <label v-for="course in courses" :key="course.Id">
+          <span class="mt-2 mb-2"> <h6>Course</h6> </span>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            v-model="form.course"
+            :value="course.Id"
+            required
+          />
+          <span
+            ><b> Course Code </b>{{ course.course_code }} ::
+            <b> Course Title </b>{{ course.course }}
+          </span>
+        </label>
+      </div>
+
+      <button class="btn btn-primary mt-2" @click="submit">Submit</button>
+    </b-modal>
+    <!-- End of add modal -->
+
+    <!-- Edit modal -->
+    <b-modal id="modal-2" hide-footer title="Edit lecturers">
       <label class="mb-2 "> Name </label>
       <div class="input-group input-group-sm mb-3">
         <input
+          v-model="edit.name"
           type="text"
           class="form-control"
           aria-label="Sizing example input"
           aria-describedby="inputGroup-sizing-sm"
         />
       </div>
-      <hr />
-      <label class="mb-2 "> Courses </label>
-      <span v-for="cos in courses" :key="cos.Id">
-        <b-form-checkbox-group
-          v-model="selected"
-         
-          class="mb-3"
-          value-field="item"
-          text-field="name"
-          disabled-field="notEnabled"
-        ></b-form-checkbox-group>
-      </span>
 
-      <button class="btn btn-primary">Submit</button>
+      <label class="mb-2 "> School </label>
+      <b-form-select
+        class="px-2 py-2 pb-2 mt-2 mb-3 w-100"
+        v-model="edit.school"
+        @change="getDept"
+      >
+        <template #first>
+          <b-form-select-option :value="null" placeholder="Department" disabled
+            >-- select school --</b-form-select-option
+          >
+        </template>
+        <option
+          class="px-2 py-2"
+          v-for="school in schools"
+          :key="school.Id"
+          :value="school.Id"
+        >
+          {{ school.school }}
+        </option>
+      </b-form-select>
+
+      <label class="mb-2 "> Department </label>
+      <b-form-select
+        class="px-2 py-2 pb-2 mt-2 mb-3 w-100"
+        v-model="edit.deptId"
+        @change="getCourses"
+      >
+        <template #first>
+          <b-form-select-option :value="null" placeholder="Department" disabled
+            >-- select Department --</b-form-select-option
+          >
+        </template>
+        <option
+          class="px-2 py-2"
+          v-for="depts in departments"
+          :key="depts.Id"
+          :value="depts.Id"
+        >
+          {{ depts.dept }}
+        </option>
+      </b-form-select>
+      <label class="mb-2 "> Level </label>
+      <b-form-select
+        class="px-2 py-2 pb-2 mt-2 mb-3 w-100"
+        v-model="edit.levelId"
+        @change="getCourses"
+      >
+        <template #first>
+          <b-form-select-option :value="null" disabled
+            >-- select level --</b-form-select-option
+          >
+        </template>
+        <option
+          class="px-2 py-2"
+          v-for="lvls in levels"
+          :key="lvls.Id"
+          :value="lvls.Id"
+        >
+          {{ lvls.level }}
+        </option>
+      </b-form-select>
+
+      <hr />
+
+      <div class="form-check">
+        <label v-for="course in courses" :key="course.Id">
+          <span class="mt-2 mb-2"> <h6>Course</h6> </span>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            v-model="edit.course"
+            :value="course.Id"
+            required
+          />
+          <span
+            ><b> Course Code </b>{{ course.course_code }} ::
+            <b> Course Title </b>{{ course.course }}
+          </span>
+        </label>
+      </div>
+
+      <button class="btn btn-primary mt-2" @click="submit">Submit</button>
     </b-modal>
+    <!-- end of edit modal -->
   </main>
 </template>
 
@@ -144,7 +274,17 @@ export default {
       levels: [],
       departments: [],
       courses: [],
+      schools: [],
+      lecturers: [],
       form: {
+        school: '',
+        name: '',
+        deptId: '',
+        levelId: '',
+        course: []
+      },
+      edit: {
+        school: '',
         name: '',
         deptId: '',
         levelId: '',
@@ -154,7 +294,8 @@ export default {
   },
   mounted () {
     this.getlevels()
-    this.getDept()
+    this.getSchool()
+    this.getlecturers()
   },
   methods: {
     getlevels () {
@@ -162,10 +303,22 @@ export default {
         this.levels = res.data
       })
     },
+    getSchool () {
+      this.$http
+        .get('http://localhost/JessieProject/school')
+        .then(res => {
+          this.schools = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     getDept () {
-      this.$http.get('http://localhost/JessieProject/dept').then(res => {
-        this.departments = res.data
-      })
+      this.$http
+        .get(`http://localhost/JessieProject/dept?id=${this.form.school}`)
+        .then(res => {
+          this.departments = res.data
+        })
     },
     getCourses () {
       let data = new Object()
@@ -176,8 +329,72 @@ export default {
         .post('http://localhost/JessieProject/lvlcos', data)
         .then(res => {
           this.courses = res.data
+          console.log(res.data)
         })
-    }
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    submit (e) {
+      e.preventDefault()
+      if (
+        !this.form.name &&
+        !this.form.levelId &&
+        !this.form.deptId &&
+        !this.form.course.length
+      ) {
+        this.$swal({ icon: 'error', text: 'invalid input' })
+      } else {
+        this.$http
+          .post('http://localhost/JessieProject/lecturer', this.form)
+          .then(res => {
+            this.$swal({
+              icon: 'success',
+              text: 'Your Password is' + ' ' + res.data.message
+            })
+            setTimeout(() => {
+              location.reload()
+            }, 2000)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+    },
+    getlecturers () {
+      this.$http
+        .get('http://localhost/JessieProject/lecturer')
+        .then(res => {
+          this.lecturers = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    deletelecturer (lid) {
+      this.$swal({
+        title: 'Are you sure?',
+        text: 'Once deleted, you will not be able to retrieve !',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true
+      }).then(willDelete => {
+        if (willDelete) {
+          this.$http.delete(`http://localhost/JessieProject/lecturer?id=${lid}`)
+          this.$swal('Deleted!', {
+            icon: 'success'
+          })
+        } else {
+          this.$swal('Your delete is safe!')
+        }
+      })
+      setTimeout(() => {
+        location.reload()
+      }, 2000)
+    },
+	startEdit(){
+		
+	}
   }
 }
 </script>
