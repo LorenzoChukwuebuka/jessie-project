@@ -17,6 +17,8 @@
             </button>
 
             <input
+              v-model="search"
+              @keyup="getCourse"
               type="text"
               class="form-control"
               placeholder="Search Courses"
@@ -209,6 +211,7 @@ export default {
   components: { sidenav },
   data () {
     return {
+      search: '',
       courses: [],
       levels: [],
       departments: [],
@@ -233,6 +236,7 @@ export default {
     this.getDept()
     this.getCourse()
   },
+
   methods: {
     getlevels () {
       this.$http.get('http://localhost/JessieProject/levels').then(res => {
@@ -270,7 +274,13 @@ export default {
     },
     getCourse () {
       this.$http.get('http://localhost/JessieProject/course').then(res => {
-        this.courses = res.data
+        if (this.search) {
+          return (this.courses = res.data.filter(item => {
+            return item.course.toLowerCase().includes(this.search)
+          }))
+        } else {
+          this.courses = res.data
+        }
       })
     },
     startedit (cos) {

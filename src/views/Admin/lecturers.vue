@@ -17,6 +17,7 @@
             </button>
 
             <input
+              v-model="search"
               type="text"
               class="form-control"
               placeholder="Search lecturers"
@@ -25,7 +26,7 @@
             />
           </div>
           <h4 class="text-white text-center">Lecturers</h4>
-          <table class="table mt-5 text-white">
+          <table class="table mt-5 text-white" v-if="lecturers.length != 0">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -37,7 +38,7 @@
               </tr>
             </thead>
             <tbody
-              v-for="(lecturer, index) in lecturers"
+              v-for="(lecturer, index) in filterlecturer"
               :key="index"
               :value="lecturer.lid"
             >
@@ -51,6 +52,7 @@
                     icon="pen"
                     variant="success"
                     v-b-modal.modal-2
+                    @click="startedit(lecturer)"
                   ></b-icon>
                 </td>
                 <td>
@@ -63,6 +65,11 @@
               </tr>
             </tbody>
           </table>
+          <small v-else>
+            <p class="text-center text-white">
+              You have not added any schools yet
+            </p>
+          </small>
         </div>
       </div>
     </div>
@@ -271,6 +278,7 @@ export default {
   components: { sidenav },
   data () {
     return {
+      search: '',
       levels: [],
       departments: [],
       courses: [],
@@ -289,13 +297,28 @@ export default {
         deptId: '',
         levelId: '',
         course: []
-      }
+      },
+      edited: null
     }
   },
   mounted () {
     this.getlevels()
     this.getSchool()
     this.getlecturers()
+  },
+  computed: {
+    filterlecturer () {
+      if (this.search) {
+        return this.lecturers.filter(item => {
+          return this.search
+            .toLowerCase()
+            .split(' ')
+            .every(v => item.name.toLowerCase().includes(v))
+        })
+      } else {
+        return this.lecturers
+      }
+    }
   },
   methods: {
     getlevels () {
@@ -392,9 +415,10 @@ export default {
         location.reload()
       }, 2000)
     },
-	startEdit(){
-		
-	}
+    startedit (lecturer) {
+      this.edited = lecturer
+	  console.log(lecturer)
+    }
   }
 }
 </script>

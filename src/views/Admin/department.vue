@@ -17,6 +17,7 @@
             </button>
 
             <input
+              v-model="search"
               type="text"
               class="form-control"
               placeholder="Search Dept"
@@ -24,7 +25,7 @@
               aria-describedby="basic-addon1"
             />
           </div>
-            <h4 class="text-white text-center">departments</h4>
+          <h4 class="text-white text-center">departments</h4>
           <table class="table mt-5 text-white" v-if="departments.length != 0">
             <thead>
               <tr>
@@ -36,7 +37,7 @@
               </tr>
             </thead>
             <tbody
-              v-for="(dept, index) in departments"
+              v-for="(dept, index) in filterdepartment"
               :key="index"
               :value="dept.Id"
             >
@@ -53,7 +54,11 @@
                   ></b-icon>
                 </td>
                 <td>
-                  <b-icon icon="trash" variant="danger" @click="deletedept(dept.Id)"></b-icon>
+                  <b-icon
+                    icon="trash"
+                    variant="danger"
+                    @click="deletedept(dept.Id)"
+                  ></b-icon>
                 </td>
               </tr>
             </tbody>
@@ -151,12 +156,27 @@ export default {
       form: {
         dept: '',
         schId: ''
-      }
+      },
+      search: ''
     }
   },
   mounted () {
     this.getschool()
     this.getDept()
+  },
+  computed: {
+    filterdepartment () {
+      if (this.search) {
+        return this.departments.filter(item => {
+          return this.search
+            .toLowerCase()
+            .split(' ')
+            .every(v => item.dept.toLowerCase().includes(v))
+        })
+      } else {
+        return this.departments
+      }
+    }
   },
   methods: {
     getschool () {

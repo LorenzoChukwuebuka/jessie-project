@@ -4,7 +4,7 @@
     <div class="container-fluid mt-5">
       <div class="row justify-content-center mt-5">
         <div class="container col-8 offset-3">
-          <h4 class="text-white text-center">Add School</h4>
+          <h4 class="text-white text-center">Add Students</h4>
 
           <div class="input-group mb-3">
             <button
@@ -13,7 +13,7 @@
               type="button"
               id="button-addon1"
             >
-              Add school
+              Add Students
             </button>
 
             <input
@@ -67,7 +67,7 @@
           aria-describedby="inputGroup-sizing-sm"
         />
       </div>
-      <button class="btn btn-primary"> Submit</button>
+      <button class="btn btn-primary">Submit</button>
     </b-modal>
   </main>
 </template>
@@ -76,7 +76,12 @@
 import sidenav from '../../components/sidenav.vue'
 export default {
   name: 'course',
-  components: { sidenav }
+  components: { sidenav },
+  data(){
+	  return{
+		  
+	  }
+  }
 }
 </script>
 
