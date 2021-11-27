@@ -65,7 +65,7 @@
           </table>
           <small v-else>
             <p class="text-center text-white">
-              You have not added any schools yet
+              You have not added any departments yet
             </p>
           </small>
         </div>

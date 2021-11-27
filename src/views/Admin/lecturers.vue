@@ -67,7 +67,7 @@
           </table>
           <small v-else>
             <p class="text-center text-white">
-              You have not added any schools yet
+              You have not added any lecturers yet
             </p>
           </small>
         </div>
@@ -99,8 +99,8 @@
         </template>
         <option
           class="px-2 py-2"
-          v-for="school in schools"
-          :key="school.Id"
+          v-for="(school,index) in schools"
+          :key="index"
           :value="school.Id"
         >
           {{ school.school }}
@@ -120,8 +120,8 @@
         </template>
         <option
           class="px-2 py-2"
-          v-for="depts in departments"
-          :key="depts.Id"
+          v-for="(depts,index) in departments"
+          :key="index"
           :value="depts.Id"
         >
           {{ depts.dept }}
@@ -341,9 +341,11 @@ export default {
         .get(`http://localhost/JessieProject/dept?id=${this.form.school}`)
         .then(res => {
           this.departments = res.data
+          console.log(res.data)
         })
     },
     getCourses () {
+      if (!this.form.levelId) return false
       let data = new Object()
       data.deptId = this.form.deptId
       data.levelId = this.form.levelId
@@ -352,7 +354,6 @@ export default {
         .post('http://localhost/JessieProject/lvlcos', data)
         .then(res => {
           this.courses = res.data
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)
@@ -417,7 +418,7 @@ export default {
     },
     startedit (lecturer) {
       this.edited = lecturer
-	  console.log(lecturer)
+      console.log(lecturer)
     }
   }
 }

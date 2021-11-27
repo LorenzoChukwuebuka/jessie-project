@@ -35,7 +35,11 @@
                 <th scope="col">Delete</th>
               </tr>
             </thead>
-            <tbody v-for="(sch, index) in filterSchool" :key="index" :value="sch.Id">
+            <tbody
+              v-for="(sch, index) in filterSchool"
+              :key="index"
+              :value="sch.Id"
+            >
               <tr>
                 <td>{{ index + 1 }}</td>
                 <td>{{ sch.school }}</td>
@@ -140,7 +144,11 @@ export default {
         this.$http
           .post('http://localhost/JessieProject/school', this.form)
           .then(res => {
-            this.$swal({ icon: 'success', text: 'Added successfully' })
+            if (res.data.message === 'successful') {
+              this.$swal({ icon: 'success', text: res.data.message })
+            } else {
+              this.$swal({ icon: 'error', text: res.data.message })
+            }
           })
           .catch(err => {
             console.log(err)
@@ -178,6 +186,9 @@ export default {
         } else {
           this.$swal('Your delete is safe!')
         }
+        setTimeout(() => {
+          location.reload()
+        }, 2000)
       })
       setTimeout(() => {
         location.reload()

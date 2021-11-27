@@ -25,62 +25,224 @@
             />
           </div>
 
-          <table class="table mt-5 text-white">
+          <table class="table mt-5 text-white" v-if="students.length != 0">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Name</th>
+                <th scope="col">Department</th>
+                <th scope="col">Course</th>
+                <th scope="col">Level</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-for="(student,index) in students" :key="index" :value="student.id">
               <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
+                <td>{{index +1}}</td>
+                <td> {{student.name}} </td>
+                <td> {{student.regNum}} </td>
+                <td> {{student.level}} </td>
+                <td> {{student.dept}} </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <b-modal id="modal-1" hide-footer title="Add school">
-      <label class="mb-2 "> School </label>
+    <!-- Add modal --->
+    <b-modal id="modal-1" hide-footer title="Add Students">
+      <label class="mb-2 "> Name </label>
       <div class="input-group input-group-sm mb-3">
         <input
+          v-model="form.name"
           type="text"
           class="form-control"
           aria-label="Sizing example input"
           aria-describedby="inputGroup-sizing-sm"
         />
       </div>
-      <button class="btn btn-primary">Submit</button>
+
+      <label class="mb-2 "> Reg Number </label>
+      <div class="input-group input-group-sm mb-3">
+        <input
+          v-model="form.regnum"
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+        />
+      </div>
+
+      <label class="mb-2 "> School </label>
+      <b-form-select
+        class="px-2 py-2 pb-2 mt-2 mb-3 w-100"
+        v-model="form.school"
+        @change="getDept"
+      >
+        <template #first>
+          <b-form-select-option :value="null" placeholder="Department" disabled
+            >-- select school --</b-form-select-option
+          >
+        </template>
+        <option
+          class="px-2 py-2"
+          v-for="(sch, index) in schools"
+          :key="index"
+          :value="sch.Id"
+        >
+          {{ sch.school }}
+        </option>
+      </b-form-select>
+      <label class="mb-2 "> Department </label>
+      <b-form-select
+        class="px-2 py-2 pb-2 mt-2 mb-3 w-100"
+        v-model="form.deptId"
+        @change="getCourses"
+      >
+        <template #first>
+          <b-form-select-option :value="null" placeholder="Department" disabled
+            >-- select Department --</b-form-select-option
+          >
+        </template>
+        <option
+          class="px-2 py-2"
+          v-for="(depts, index) in departments"
+          :key="index"
+          :value="depts.Id"
+        >
+          {{ depts.dept }}
+        </option>
+      </b-form-select>
+      <label class="mb-2 "> Level </label>
+      <b-form-select
+        class="px-2 py-2 pb-2 mt-2 mb-3 w-100"
+        v-model="form.levelId"
+        @change="getCourses"
+      >
+        <template #first>
+          <b-form-select-option :value="null" disabled
+            >-- select level --</b-form-select-option
+          >
+        </template>
+        <option
+          class="px-2 py-2"
+          v-for="lvls in levels"
+          :key="lvls.Id"
+          :value="lvls.Id"
+        >
+          {{ lvls.level }}
+        </option>
+      </b-form-select>
+      <hr />
+
+      <label v-for="course in courses" :key="course.Id">
+        <span class="mt-2 mb-2"> <h6>Course</h6> </span>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          v-model="form.course"
+          :value="course.Id"
+          required
+        />
+        <span
+          ><b> Course Code </b>{{ course.course_code }} :: <b> Course Title </b
+          >{{ course.course }}
+        </span>
+      </label>
+
+      <button class="btn btn-primary mt-2" @click="submit">Submit</button>
     </b-modal>
+    <!-- End of add modal -->
   </main>
 </template>
 
 <script>
 import sidenav from '../../components/sidenav.vue'
 export default {
-  name: 'course',
+  name: 'student',
   components: { sidenav },
-  data(){
-	  return{
-		  
-	  }
+  data () {
+    return {
+      schools: [],
+      levels: [],
+      courses: [],
+      departments: [],
+      courses: [],
+	  students:[],
+      form: {
+        name: '',
+        regnumber: '',
+        deptId: '',
+        levelId: '',
+        school: '',
+        course: []
+      }
+    }
+  },
+  mounted () {
+    this.getSchool()
+    this.fetchStudents()
+    this.getlevels()
+  },
+  methods: {
+    getSchool () {
+      this.$http
+        .get('http://localhost/JessieProject/school')
+        .then(res => {
+          this.schools = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getDept () {
+      this.$http
+        .get(`http://localhost/JessieProject/dept?id=${this.form.school}`)
+        .then(res => {
+          this.departments = res.data
+        })
+    },
+    getlevels () {
+      this.$http.get('http://localhost/JessieProject/levels').then(res => {
+        this.levels = res.data
+      })
+    },
+
+    getCourses () {
+      if (!this.form.levelId) return false
+      let data = new Object()
+      data.deptId = this.form.deptId
+      data.levelId = this.form.levelId
+      console.log(data)
+      this.$http
+        .post('http://localhost/JessieProject/lvlcos', data)
+        .then(res => {
+          this.courses = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    submit (e) {
+      e.preventDefault()
+      if (!this.form.name && !this.form.regnumber) {
+        this.$swal({ icon: 'error', text: 'Invalid input' })
+      } else {
+        this.$http
+          .post('http://localhost/JessieProject/students', this.form)
+          .then(res => {
+            if (res.data.message === 'successful') {
+              this.$swal({ icon: 'success', text: res.data.message })
+            } else {
+              this.$swal({ icon: 'error', text: res.data.message })
+            }
+          })
+      }
+    },
+    fetchStudents () {
+      this.$http.get('http://localhost/JessieProject/students').then(res => {
+        this.students = res.data
+      })
+    }
   }
 }
 </script>
