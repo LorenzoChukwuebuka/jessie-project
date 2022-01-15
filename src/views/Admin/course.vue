@@ -266,8 +266,8 @@ export default {
               setTimeout(() => {
                 location.reload()
               }, 2000)
-            } else {
-              this.$swal({ icon: 'error', text: res.data.message })
+            } else if(res.data.message === 'exists') {
+              this.$swal({ icon: 'error', text: 'exists' })
             }
           })
       }

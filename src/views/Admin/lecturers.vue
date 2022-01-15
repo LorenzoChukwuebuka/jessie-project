@@ -99,7 +99,7 @@
         </template>
         <option
           class="px-2 py-2"
-          v-for="(school,index) in schools"
+          v-for="(school, index) in schools"
           :key="index"
           :value="school.Id"
         >
@@ -120,7 +120,7 @@
         </template>
         <option
           class="px-2 py-2"
-          v-for="(depts,index) in departments"
+          v-for="(depts, index) in departments"
           :key="index"
           :value="depts.Id"
         >

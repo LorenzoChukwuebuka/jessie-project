@@ -22,7 +22,7 @@
                 name="email"
                 id="email"
                 placeholder="Username"
-                v-model="form.email_username"
+                v-model="form.username"
                 required
                 data-validation-message="Please fill out this field"
               />
@@ -78,8 +78,9 @@ export default {
       errors: [],
       type: 'password',
       text: 'show',
+      type: null,
       form: {
-        email_username: '',
+        username: '',
         password: ''
       }
     }
@@ -87,17 +88,30 @@ export default {
   methods: {
     submit (e) {
       e.preventDefault()
-      //check inputs
-      if (!this.form.email_username && !this.form.password) {
+      if (!this.form.username && !this.form.password) {
         this.$swal({ icon: 'error', text: 'invalid inputs' })
         this.errors.push()
         setTimeout(() => {
           location.reload()
         }, 1000)
-      }else{
-		  this.$router.push('/homeAdmin')
-	  }
-    
+      }
+      if (!this.errors.length) {
+        this.$http
+          .post('http://localhost/JessieProject/login', this.form)
+          .then(res => {
+            if (res.data.message === 'invalid details') {
+              console.log(res.data.message)
+            } else if (res.data[0].type == 0) {
+              localStorage.setItem('Id', res.data[0].type)
+              this.$router.push('/homeAdmin')
+            } else if (res.data[0].type == 1) {
+              console.log('lecturer')
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
     },
     showPassword () {
       if (this.type === 'password') {

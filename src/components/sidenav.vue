@@ -4,13 +4,7 @@
       <div class="sidebar">
         <p class="myproject px-3 ">Dashboard</p>
         <ul>
-          <li><a href="#"> Admin</a></li>
-          <li><router-link to="/school"> School</router-link></li>
-          <li><router-link to="/dept">Department</router-link></li>
-          <li><router-link to="/course">Courses</router-link></li>
-          <li><router-link to="/lecturer">Lecturer</router-link></li>
-          <li><router-link to="/student">Students</router-link></li>
-          <li><a href="#">Enroll Students biometrics</a></li>
+         <slot> </slot>
         </ul>
       </div>
     </div>
@@ -19,11 +13,21 @@
 
 <script>
 export default {
-  name: 'sidenav'
+  name: 'sidenav',
+  methods: {
+    enroll () {
+      this.$http.post('http://localhost/JessieProject/enroll')
+    },
+    logout () {
+      localStorage.removeItem('Id')
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 
 <style scoped>
+/* side nav */
 * {
   margin: 0;
   padding: 0;
