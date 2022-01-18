@@ -1,15 +1,6 @@
 <template>
   <main>
-    <sidenav>
-      <li><a href="/homeAdmin"> Admin</a></li>
-      <li><router-link to="/school"> School</router-link></li>
-      <li><router-link to="/dept">Department</router-link></li>
-      <li><router-link to="/course">Courses</router-link></li>
-      <li><router-link to="/lecturer">Lecturer</router-link></li>
-      <li><router-link to="/student">Students</router-link></li>
-      <li><a href="#" @click="enroll">Enroll Students biometrics</a></li>
-      <li><a href="#" @click="logout"> Logout </a></li>
-   </sidenav>
+    <sidenav> </sidenav>
     <div class="container">
       <div class="col-md-10  " style="margin-left:200px;">
         <div class="row ">
@@ -25,27 +16,9 @@
                 <div class="row align-items-center mb-2 d-flex">
                   <div class="col-8">
                     <h2 class="d-flex align-items-center mb-0">
-                      3,243
+                      {{ totaldepts }}
                     </h2>
                   </div>
-                  <div class="col-4 text-right">
-                    <span>12.5% <i class="fa fa-arrow-up"></i></span>
-                  </div>
-                </div>
-                <div
-                  class="progress mt-1 "
-                  data-height="8"
-                  style="height: 8px;"
-                >
-                  <div
-                    class="progress-bar l-bg-cyan"
-                    role="progressbar"
-                    data-width="25%"
-                    aria-valuenow="25"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    style="width: 25%;"
-                  ></div>
                 </div>
               </div>
             </div>
@@ -57,32 +30,14 @@
                   <i class="fas fa-users"></i>
                 </div>
                 <div class="mb-4">
-                  <h5 class="card-title mb-0">Course</h5>
+                  <h5 class="card-title mb-0">Courses</h5>
                 </div>
                 <div class="row align-items-center mb-2 d-flex">
                   <div class="col-8">
                     <h2 class="d-flex align-items-center mb-0">
-                      15.07k
+                      {{ totalcourse }}
                     </h2>
                   </div>
-                  <div class="col-4 text-right">
-                    <span>9.23% <i class="fa fa-arrow-up"></i></span>
-                  </div>
-                </div>
-                <div
-                  class="progress mt-1 "
-                  data-height="8"
-                  style="height: 8px;"
-                >
-                  <div
-                    class="progress-bar l-bg-green"
-                    role="progressbar"
-                    data-width="25%"
-                    aria-valuenow="25"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    style="width: 25%;"
-                  ></div>
                 </div>
               </div>
             </div>
@@ -94,32 +49,14 @@
                   <i class="fas fa-ticket-alt"></i>
                 </div>
                 <div class="mb-4">
-                  <h5 class="card-title mb-0">Student</h5>
+                  <h5 class="card-title mb-0">Students</h5>
                 </div>
                 <div class="row align-items-center mb-2 d-flex">
                   <div class="col-8">
                     <h2 class="d-flex align-items-center mb-0">
-                      578
+                      {{ totalstudent }}
                     </h2>
                   </div>
-                  <div class="col-4 text-right">
-                    <span>10% <i class="fa fa-arrow-up"></i></span>
-                  </div>
-                </div>
-                <div
-                  class="progress mt-1 "
-                  data-height="8"
-                  style="height: 8px;"
-                >
-                  <div
-                    class="progress-bar l-bg-orange"
-                    role="progressbar"
-                    data-width="25%"
-                    aria-valuenow="25"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    style="width: 25%;"
-                  ></div>
                 </div>
               </div>
             </div>
@@ -131,32 +68,14 @@
                   <i class="fas fa-dollar-sign"></i>
                 </div>
                 <div class="mb-4">
-                  <h5 class="card-title mb-0">Lecturer</h5>
+                  <h5 class="card-title mb-0">Lecturers</h5>
                 </div>
                 <div class="row align-items-center mb-2 d-flex">
                   <div class="col-8">
                     <h2 class="d-flex align-items-center mb-0">
-                      $11.61k
+                      {{ totallecturers }}
                     </h2>
                   </div>
-                  <div class="col-4 text-right">
-                    <span>2.5% <i class="fa fa-arrow-up"></i></span>
-                  </div>
-                </div>
-                <div
-                  class="progress mt-1 "
-                  data-height="8"
-                  style="height: 8px;"
-                >
-                  <div
-                    class="progress-bar l-bg-cyan"
-                    role="progressbar"
-                    data-width="25%"
-                    aria-valuenow="25"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    style="width: 25%;"
-                  ></div>
                 </div>
               </div>
             </div>
@@ -175,14 +94,44 @@ export default {
     sidenav
   },
   data () {
-    return {}
+    return {
+      totaldepts: '',
+      totalcourse: '',
+      totalstudent: '',
+      totallecturers: ''
+    }
   },
-  mounted () {},
+  mounted () {
+    this.getTotalDepts()
+    this.getTotalCourse()
+    this.getTotalLecturers()
+    this.getTotalStudents()
+  },
   methods: {
-    getTotalDepts () {},
-    getTotalCourse () {},
-    getTotalStudents () {},
-    getTotalLecturers () {}
+    getTotalDepts () {
+      this.$http.get('http://localhost/JessieProject/totaldepts').then(res => {
+        this.totaldepts = res.data.total_depts
+      })
+    },
+    getTotalCourse () {
+      this.$http.get('http://localhost/JessieProject/totalCourse').then(res => {
+        this.totalcourse = res.data.total_course
+      })
+    },
+    getTotalStudents () {
+      this.$http
+        .get('http://localhost/JessieProject/totalstudents')
+        .then(res => {
+          this.totalstudent = res.data.total_students
+        })
+    },
+    getTotalLecturers () {
+      this.$http
+        .get('http://localhost/JessieProject/totallecturers')
+        .then(res => {
+          this.totallecturers = res.data.total_lecturers
+        })
+    }
   }
 }
 </script>

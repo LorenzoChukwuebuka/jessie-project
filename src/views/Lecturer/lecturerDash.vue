@@ -2,9 +2,9 @@
   <main>
     <sidenav>
       <li><a href="#"> Admin</a></li>
-      <li><router-link to="#"> Students</router-link></li>
+      <li><router-link to="#"> Courses </router-link></li>
       <li><router-link to="#">Take attendance</router-link></li>
-      <li><a href="#" @click="enroll">Enroll Students biometrics</a></li>
+
       <li><a href="#" @click="enroll">Log out </a></li>
     </sidenav>
     <div class="container">
@@ -49,7 +49,8 @@ export default {
       min: minDate,
       max: maxDate
     }
-  }
+  },
+  methods: {}
 }
 </script>
 

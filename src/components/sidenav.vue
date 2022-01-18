@@ -4,7 +4,16 @@
       <div class="sidebar">
         <p class="myproject px-3 ">Dashboard</p>
         <ul>
-         <slot> </slot>
+          <slot>
+            <li><a href="/homeAdmin"> Admin</a></li>
+            <li><router-link to="/school"> School</router-link></li>
+            <li><router-link to="/dept">Department</router-link></li>
+            <li><router-link to="/course">Courses</router-link></li>
+            <li><router-link to="/lecturer">Lecturer</router-link></li>
+            <li><router-link to="/student">Students</router-link></li>
+            <li><a href="#" @click="enroll">Enroll Students biometrics</a></li>
+            <li><a href="#" @click="logout"> Logout </a></li>
+          </slot>
         </ul>
       </div>
     </div>
