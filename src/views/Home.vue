@@ -102,10 +102,11 @@ export default {
             if (res.data.message === 'invalid details') {
               console.log(res.data.message)
             } else if (res.data[0].type == 0) {
-              localStorage.setItem('Id', res.data[0].type)
               this.$router.push('/homeAdmin')
+              localStorage.setItem('Id', res.data[0].Id)
             } else if (res.data[0].type == 1) {
-              console.log('lecturer')
+              this.$router.push('/homelect')
+              localStorage.setItem('Id', res.data[0].Id)
             }
           })
           .catch(err => {

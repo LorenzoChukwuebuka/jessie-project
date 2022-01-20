@@ -8,6 +8,7 @@ import course from '../views/Admin/course.vue'
 import lecturer from '../views/Admin/lecturers.vue'
 import student from '../views/Admin/students.vue'
 import homelect from '../views/Lecturer/lecturerDash.vue'
+import lectCourse from '../views/Lecturer/lecturerCourse.vue'
 
 Vue.use(VueRouter)
 
@@ -82,6 +83,17 @@ const routes = [
     name: 'homelect',
     component: homelect
   },
+  {
+    path: '/lectCourse',
+    name: 'lectCourse',
+    component: lectCourse,
+    beforeEnter: (to, from, next) => {
+      const isAuthenticated = localStorage.getItem('Id') ? true : false
+      if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
+      else next()
+    }
+  },
+
   {
     path: '/about',
     name: 'About',

@@ -1,12 +1,6 @@
 <template>
   <main>
-    <sidenav>
-      <li><a href="#"> Admin</a></li>
-      <li><router-link to="#"> Courses </router-link></li>
-      <li><router-link to="#">Take attendance</router-link></li>
-
-      <li><a href="#" @click="enroll">Log out </a></li>
-    </sidenav>
+    <lecturerNav />
     <div class="container">
       <div class="card mx-auto w-50">
         <div class="card-body">
@@ -26,11 +20,11 @@
 </template>
 
 <script>
-import sidenav from '@/components/sidenav.vue'
+import lecturerNav from '@/components/lecturerNav.vue'
 export default {
   name: 'homelect',
   components: {
-    sidenav
+    lecturerNav
   },
   data () {
     const now = new Date()
