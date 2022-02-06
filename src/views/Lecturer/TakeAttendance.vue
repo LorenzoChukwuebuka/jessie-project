@@ -11,7 +11,7 @@
             <b-form-select
               class="px-2 py-2 pb-2 mt-2 mb-3 w-100"
               v-model="form.course"
-              @change="getStudents()"
+              @change="getStudents(), takeAttendance()"
             >
               <template #first>
                 <b-form-select-option
@@ -31,7 +31,7 @@
               </option>
             </b-form-select>
           </div>
-          <h4 class="text-white text-center">Students </h4>
+          <h4 class="text-white text-center">Students</h4>
           <table class="table mt-5 text-white" v-if="students.length != 0">
             <thead>
               <tr>
@@ -40,6 +40,7 @@
                 <th scope="col">Reg Number</th>
                 <th scope="col">Course Code</th>
                 <th scope="col">Course</th>
+                <th scope="col">Take Attendance</th>
               </tr>
             </thead>
             <tbody
@@ -53,6 +54,14 @@
                 <td>{{ stds.regNum }}</td>
                 <td>{{ stds.course_code }}</td>
                 <td>{{ stds.course }}</td>
+                <td>
+                  <b-icon
+                    icon="pen"
+                    variant="success"
+                    v-b-modal.modal-2
+                    :disabled="submitted"
+                  ></b-icon>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -64,21 +73,38 @@
         </div>
       </div>
     </div>
+    <b-modal id="modal-2" hide-footer title="Add school">
+      <label class="mb-2 "> Enter Code </label>
+      <div class="input-group input-group-sm mb-3">
+        <input
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+          v-model="form.code"
+        />
+      </div>
+      <button class="btn btn-primary" @click="takeAttendance">
+        Take attendance
+      </button>
+    </b-modal>
   </main>
 </template>
 <script>
 import lectNav from '@/components/lecturerNav.vue'
 
 export default {
-  name: 'lectCourse',
+  name: 'lectattend',
   components: { lectNav },
   data () {
     return {
       form: {
-        course: ''
+        course: '',
+        code: ''
       },
       courses: [],
-      students: []
+      students: [],
+      submitted: false
     }
   },
   mounted () {
@@ -101,6 +127,10 @@ export default {
         .then(res => {
           this.students = res.data
         })
+    },
+    takeAttendance () {
+      if (!this.form.code) return false
+        this.$http.post();
     }
   }
 }

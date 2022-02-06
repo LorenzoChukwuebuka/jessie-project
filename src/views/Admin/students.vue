@@ -31,17 +31,31 @@
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Department</th>
-                <th scope="col">Course</th>
+                <th scope="col">Reg Number</th>
                 <th scope="col">Level</th>
+                <th scope="col">Delete</th>
               </tr>
             </thead>
-            <tbody v-for="(student,index) in students" :key="index" :value="student.id">
+            <tbody
+              v-for="(student, index) in students"
+              :key="index"
+              :value="student.id"
+            >
               <tr>
-                <td>{{index +1}}</td>
-                <td> {{student.name}} </td>
-                <td> {{student.regNum}} </td>
-                <td> {{student.level}} </td>
-                <td> {{student.dept}} </td>
+                <td>{{ index + 1 }}</td>
+
+                <td>{{ student.name }}</td>
+                <td>{{ student.dept }}</td>
+                <td>{{ student.regNum }}</td>
+                <td>{{ student.level }}</td>
+
+                <td>
+                  <b-icon
+                    icon="trash"
+                    @click="deletestudent(student.id)"
+                    variant="danger"
+                  ></b-icon>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -151,6 +165,7 @@
 
       <button class="btn btn-primary mt-2" @click="submit">Submit</button>
     </b-modal>
+
     <!-- End of add modal -->
   </main>
 </template>
@@ -167,8 +182,17 @@ export default {
       courses: [],
       departments: [],
       courses: [],
-	  students:[],
+      students: [],
       form: {
+        name: '',
+        regnumber: '',
+        deptId: '',
+        levelId: '',
+        school: '',
+        course: []
+      },
+      edited: null,
+      edit: {
         name: '',
         regnumber: '',
         deptId: '',
@@ -230,11 +254,10 @@ export default {
         this.$http
           .post('http://localhost/JessieProject/students', this.form)
           .then(res => {
-            if (res.data.message === 'successful') {
-              this.$swal({ icon: 'success', text: res.data.message })
-            } else {
-              this.$swal({ icon: 'error', text: res.data.message })
-            }
+            this.$swal({
+              icon: 'success',
+              text: 'Your unique code for attendance is'.res.data.message
+            })
           })
       }
     },
@@ -242,6 +265,14 @@ export default {
       this.$http.get('http://localhost/JessieProject/students').then(res => {
         this.students = res.data
       })
+    },
+
+    deletestudent (Id) {
+      this.$http
+        .delete(`http://localhost/JessieProject/students?id=${Id}`)
+        .then(res => {
+          console.log(res.data)
+        })
     }
   }
 }

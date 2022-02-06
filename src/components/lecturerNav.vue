@@ -2,12 +2,16 @@
   <main>
     <sidenav>
       <li>
-        <a href="#"> {{ name.toUpperCase() }} </a>
+        <a href="/homelect"> {{ name.toUpperCase() }} </a>
       </li>
-      <li><router-link to="#"> Courses </router-link></li>
+      <li><router-link to="/lectCourse"> Courses </router-link></li>
       <li>
-        <router-link to="#" @click="attendance">Take attendance</router-link>
+        <a href="#" @click="attendance">Take attendance with biometrics</a>
       </li>
+      <li>
+        <a href="#" @click="attendance">Take attendance with code</a>
+      </li>
+      <li><router-link to=""> Attendance Register</router-link></li>
 
       <li><a href="#" @click="logout">Log out </a></li>
     </sidenav>
