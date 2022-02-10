@@ -256,7 +256,8 @@ export default {
           .then(res => {
             this.$swal({
               icon: 'success',
-              text: 'Your unique code for attendance is'.res.data.message
+              text:
+                'Your unique code for attendance is' + ' ' + res.data.message
             })
           })
       }

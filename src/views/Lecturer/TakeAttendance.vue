@@ -130,7 +130,14 @@ export default {
     },
     takeAttendance () {
       if (!this.form.code) return false
-        this.$http.post();
+      let data = new Object()
+      data.course = this.form.course
+      data.code = this.form.code
+
+      this.$http.post('http://localhost/JessieProject/attendance',data)
+	  .then(res=>{
+		  console.log(res.data)
+	  })
     }
   }
 }

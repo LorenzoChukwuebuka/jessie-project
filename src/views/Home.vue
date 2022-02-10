@@ -77,7 +77,7 @@ export default {
     return {
       errors: [],
       type: 'password',
-      text: 'show',
+      text: 'Show',
       type: null,
       form: {
         username: '',
