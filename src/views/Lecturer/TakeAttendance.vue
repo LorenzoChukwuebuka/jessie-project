@@ -4,7 +4,7 @@
     <div class="container-fluid mt-5">
       <div class="row justify-content-center mt-5">
         <div class="container col-8 offset-3">
-          <h4 class="text-white text-center">Select Course</h4>
+          <h4 class="text-white text-center">Select Course For Attendance </h4>
 
           <div class="input-group mb-3 w-50 mx-auto">
             <label class="mb-2 "> Select Course </label>
@@ -131,13 +131,14 @@ export default {
     takeAttendance () {
       if (!this.form.code) return false
       let data = new Object()
-      data.course = this.form.course
-      data.code = this.form.code
+      data.courseId = this.form.course
+      data.attendanceCode = this.form.code
 
-      this.$http.post('http://localhost/JessieProject/attendance',data)
-	  .then(res=>{
-		  console.log(res.data)
-	  })
+      this.$http
+        .post('http://localhost/JessieProject/attendance', data)
+        .then(res => {
+           this.$swal(res.data.message)
+        })
     }
   }
 }

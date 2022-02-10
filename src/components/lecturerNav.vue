@@ -9,7 +9,7 @@
         <a href="#" @click="attendance">Take attendance with biometrics</a>
       </li>
       <li>
-        <a href="#" @click="attendance">Take attendance with code</a>
+        <router-link to="/lectattend">Take attendance with code</router-link>
       </li>
       <li><router-link to=""> Attendance Register</router-link></li>
 
