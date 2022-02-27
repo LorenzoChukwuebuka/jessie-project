@@ -211,4 +211,10 @@ export default {
   font-size: larger;
   text-decoration: none;
 }
+
+@media (max-width: 500px) {
+  .form-box{
+    grid-template-columns: 1fr;
+  }
+}
 </style>
