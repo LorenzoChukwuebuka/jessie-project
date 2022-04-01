@@ -47,7 +47,7 @@
               </span>
             </div>
 
-            <div class="button ">
+            <div class="button">
               <button
                 type="button"
                 name="button"
@@ -61,7 +61,7 @@
           </form>
         </div>
       </div>
-      <div class="col-12 col-md ">
+      <div class="col-12 col-md">
         <small class="d-block mb-3 text-muted text-center">
           IFT Dept &copy; 2021
         </small>
@@ -71,60 +71,67 @@
 </template>
 <script>
 export default {
-  name: 'login',
+  name: "login",
   components: {},
-  data () {
+  data() {
     return {
       errors: [],
-      type: 'password',
-      text: 'Show',
+      type: "password",
+      text: "Show",
       type: null,
       form: {
-        username: '',
-        password: ''
-      }
-    }
+        username: "",
+        password: "",
+      },
+    };
   },
   methods: {
-    submit (e) {
-      e.preventDefault()
+    submit(e) {
+      e.preventDefault();
       if (!this.form.username && !this.form.password) {
-        this.$swal({ icon: 'error', text: 'invalid inputs' })
-        this.errors.push()
+        this.$swal({ icon: "error", text: "Invalid inputs" });
+        this.errors.push();
         setTimeout(() => {
-          location.reload()
-        }, 1000)
+          location.reload();
+        }, 1000);
       }
       if (!this.errors.length) {
         this.$http
-          .post('http://localhost/JessieProject/login', this.form)
-          .then(res => {
-            if (res.data.message === 'invalid details') {
-              console.log(res.data.message)
-            } else if (res.data[0].type == 0) {
-              this.$router.push('/homeAdmin')
-              localStorage.setItem('Id', res.data[0].Id)
-            } else if (res.data[0].type == 1) {
-              this.$router.push('/homelect')
-              localStorage.setItem('Id', res.data[0].Id)
+          .post("http://localhost/JessieProject/login", this.form)
+          .then((res) => {
+            if (res.data.message === "Invalid details") {
+              return this.$swal({ icon: "error", text: res.data.message });
+            } else {
+              if (res.data[0].type === 0) {
+                this.$router.replace("/homeAdmin");
+                localStorage.setItem("Id", res.data[0].Id);
+                localStorage.setItem("name",res.data[0].username);
+                console.log(res.data);
+              } else if (res.data[0].type > 0) {
+                this.$router.push("/homelect");
+                localStorage.setItem("Id", res.data[0].Id);
+                localStorage.setItem("name", res.data[0].username);
+                console.log(res.data);
+              }
+ 
             }
           })
-          .catch(err => {
-            console.log(err)
-          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
-    showPassword () {
-      if (this.type === 'password') {
-        this.type = 'text'
-        this.text = 'Hide'
+    showPassword() {
+      if (this.type === "password") {
+        this.type = "text";
+        this.text = "Hide";
       } else {
-        this.type = 'password'
-        this.text = 'Show'
+        this.type = "password";
+        this.text = "Show";
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style scoped>
 .form-box {
@@ -213,7 +220,7 @@ export default {
 }
 
 @media (max-width: 500px) {
-  .form-box{
+  .form-box {
     grid-template-columns: 1fr;
   }
 }

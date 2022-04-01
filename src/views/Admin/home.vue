@@ -110,26 +110,26 @@ export default {
   methods: {
     getTotalDepts () {
       this.$http.get('http://localhost/JessieProject/totaldepts').then(res => {
-        this.totaldepts = res.data.total_depts
+        this.totaldepts = res.data[0].total_depts
       })
     },
     getTotalCourse () {
       this.$http.get('http://localhost/JessieProject/totalCourse').then(res => {
-        this.totalcourse = res.data.total_course
+        this.totalcourse = res.data[0].total_course
       })
     },
     getTotalStudents () {
       this.$http
         .get('http://localhost/JessieProject/totalstudents')
         .then(res => {
-          this.totalstudent = res.data.total_students
+          this.totalstudent = res.data[0].total_students
         })
     },
     getTotalLecturers () {
       this.$http
         .get('http://localhost/JessieProject/totallecturers')
         .then(res => {
-          this.totallecturers = res.data.total_lecturers
+          this.totallecturers = res.data[0].total_lecturers
         })
     }
   }

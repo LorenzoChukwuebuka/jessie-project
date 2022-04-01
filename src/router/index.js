@@ -10,116 +10,126 @@ import student from '../views/Admin/students.vue'
 import homelect from '../views/Lecturer/lecturerDash.vue'
 import lectCourse from '../views/Lecturer/lecturerCourse.vue'
 import lectattend from '../views/Lecturer/TakeAttendance.vue'
+import attendanceReg from '../views/Lecturer/attendanceRegister.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/homeAdmin',
-    name: 'homeadmin',
-    component: homeAdmin,
-    beforeEnter: (to, from, next) => {
-      const isAuthenticated = localStorage.getItem('Id') ? true : false
-      if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
-      else next()
-    }
-  },
-  {
-    path: '/school',
-    name: 'school',
-    component: school,
-    beforeEnter: (to, from, next) => {
-      const isAuthenticated = localStorage.getItem('Id') ? true : false
-      if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
-      else next()
-    }
-  },
-  {
-    path: '/dept',
-    name: 'dept',
-    component: dept,
-    beforeEnter: (to, from, next) => {
-      const isAuthenticated = localStorage.getItem('Id') ? true : false
-      if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
-      else next()
-    }
-  },
-  {
-    path: '/course',
-    name: 'course',
-    component: course,
-    beforeEnter: (to, from, next) => {
-      const isAuthenticated = localStorage.getItem('Id') ? true : false
-      if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
-      else next()
-    }
-  },
-  {
-    path: '/lecturer',
-    name: 'lecturer',
-    component: lecturer,
-    beforeEnter: (to, from, next) => {
-      const isAuthenticated = localStorage.getItem('Id') ? true : false
-      if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
-      else next()
-    }
-  },
-  {
-    path: '/student',
-    name: 'student',
-    component: student,
-    beforeEnter: (to, from, next) => {
-      const isAuthenticated = localStorage.getItem('Id') ? true : false
-      if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
-      else next()
-    }
-  },
-  {
-    path: '/homelect',
-    name: 'homelect',
-    component: homelect
-  },
-  {
-    path: '/lectCourse',
-    name: 'lectCourse',
-    component: lectCourse,
-    beforeEnter: (to, from, next) => {
-      const isAuthenticated = localStorage.getItem('Id') ? true : false
-      if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
-      else next()
-    }
-  },
-  {
-    path: '/lectattend',
-    name: 'lectattend',
-    component: lectattend,
-    beforeEnter: (to, from, next) => {
-      const isAuthenticated = localStorage.getItem('Id') ? true : false
-      if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
-      else next()
-    }
-  },
+const routes = [{
+        path: '/',
+        name: 'Home',
+        component: Home
+    },
+    {
+        path: '/homeAdmin',
+        name: 'homeadmin',
+        component: homeAdmin,
+        beforeEnter: (to, from, next) => {
+            const isAuthenticated = localStorage.getItem('Id') ? true : false
+            if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
+            else next()
+        }
+    },
+    {
+        path: '/school',
+        name: 'school',
+        component: school,
+        beforeEnter: (to, from, next) => {
+            const isAuthenticated = localStorage.getItem('Id') ? true : false
+            if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
+            else next()
+        }
+    },
+    {
+        path: '/dept',
+        name: 'dept',
+        component: dept,
+        beforeEnter: (to, from, next) => {
+            const isAuthenticated = localStorage.getItem('Id') ? true : false
+            if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
+            else next()
+        }
+    },
+    {
+        path: '/course',
+        name: 'course',
+        component: course,
+        beforeEnter: (to, from, next) => {
+            const isAuthenticated = localStorage.getItem('Id') ? true : false
+            if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
+            else next()
+        }
+    },
+    {
+        path: '/lecturer',
+        name: 'lecturer',
+        component: lecturer,
+        beforeEnter: (to, from, next) => {
+            const isAuthenticated = localStorage.getItem('Id') ? true : false
+            if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
+            else next()
+        }
+    },
+    {
+        path: '/student',
+        name: 'student',
+        component: student,
+        beforeEnter: (to, from, next) => {
+            const isAuthenticated = localStorage.getItem('Id') ? true : false
+            if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
+            else next()
+        }
+    },
+    {
+        path: '/homelect',
+        name: 'homelect',
+        component: homelect
+    },
+    {
+        path: '/lectCourse',
+        name: 'lectCourse',
+        component: lectCourse,
+        beforeEnter: (to, from, next) => {
+            const isAuthenticated = localStorage.getItem('Id') ? true : false
+            if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
+            else next()
+        }
+    },
+    {
+        path: '/lectattend',
+        name: 'lectattend',
+        component: lectattend,
+        beforeEnter: (to, from, next) => {
+            const isAuthenticated = localStorage.getItem('Id') ? true : false
+            if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
+            else next()
+        }
+    },
+    {
+        path: '/attendanceReg',
+        name: 'attendanceReg',
+        component: attendanceReg,
+        beforeEnter: (to, from, next) => {
+            const isAuthenticated = localStorage.getItem('Id') ? true : false
+            if (to.name !== 'Home' && !isAuthenticated) next({ name: 'Home' })
+            else next()
+        }
+    },
 
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    {
+        path: '/about',
+        name: 'About',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/About.vue')
+    }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 })
 
 export default router

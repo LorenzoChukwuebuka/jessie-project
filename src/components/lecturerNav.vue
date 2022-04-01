@@ -2,7 +2,7 @@
   <main>
     <sidenav>
       <li>
-        <a href="/homelect"> {{ name.toUpperCase() }} </a>
+        <a href="/homelect"> {{ name }} </a>
       </li>
       <li><router-link to="/lectCourse"> Courses </router-link></li>
       <li>
@@ -11,7 +11,7 @@
       <li>
         <router-link to="/lectattend">Take attendance with code</router-link>
       </li>
-      <li><router-link to=""> Attendance Register</router-link></li>
+      <li><router-link to="/attendanceReg"> Attendance Register</router-link></li>
 
       <li><a href="#" @click="logout">Log out </a></li>
     </sidenav>
@@ -19,39 +19,33 @@
 </template>
 
 <script>
-import sidenav from '@/components/sidenav.vue'
+import sidenav from "@/components/sidenav.vue";
 export default {
-  name: 'lectNav',
+  name: "lectNav",
   components: {
-    sidenav
+    sidenav,
   },
-  data () {
+  data() {
     return {
-      name: ''
-    }
+      name: "",
+    };
   },
-  mounted () {
-    this.getName()
+  mounted() {
+    this.getName();
   },
   methods: {
-    getName () {
-      let id = localStorage.getItem('Id')
-
-      this.$http
-        .get(`http://localhost/JessieProject/getname?id=${id}`)
-        .then(res => {
-          this.name = res.data[0].username
-        })
+    getName() {
+       this.name = localStorage.getItem('name')
     },
-    attendance () {
-      this.$http.get('http://localhost/JessieProject/attendance')
+    attendance() {
+      this.$http.get("http://localhost/JessieProject/attendance");
     },
-    logout () {
-      this.$router.push('/')
-      localStorage.removeItem('Id')
-    }
-  }
-}
+    logout() {
+      this.$router.push("/");
+      localStorage.removeItem("Id");
+    },
+  },
+};
 </script>
 
 <style></style>
