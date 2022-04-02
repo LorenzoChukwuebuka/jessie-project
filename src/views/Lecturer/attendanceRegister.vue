@@ -1,13 +1,23 @@
- <template>
+<template>
   <main>
     <lectNav />
     <div class="container-fluid mt-5">
       <div class="row justify-content-center mt-5">
         <div class="container col-8 offset-3">
-          <h4 class="text-white text-center">Select Course For Attendance </h4>
+          <h4 class="text-white text-center">Select Course For Attendance</h4>
+
+          <vue-blob-json-csv
+            @success="handleSuccess"
+            @error="handleError"
+            file-type="csv"
+            file-name="AttendanceRegister"
+            :data="csv"
+          >
+           <button class="btn btn-primary"> Download CSV </button>
+          </vue-blob-json-csv>
 
           <div class="input-group mb-3 w-50 mx-auto">
-            <label class="mb-2 "> Select Course </label>
+            <label class="mb-2"> Select Course </label>
             <b-form-select
               class="px-2 py-2 pb-2 mt-2 mb-3 w-100"
               v-model="form.course"
@@ -67,63 +77,61 @@
           </table>
           <small v-else>
             <p class="text-center text-white">
-              No student has attended lectures  for this course
+              No student has attended lectures for this course
             </p>
           </small>
         </div>
       </div>
     </div>
- 
   </main>
 </template>
 <script>
-import lectNav from '@/components/lecturerNav.vue'
+import lectNav from "@/components/lecturerNav.vue";
 
 export default {
-  name: 'attendanceReg',
+  name: "attendanceReg",
   components: { lectNav },
-  data () {
+  data() {
     return {
       form: {
-        course: '',
-        code: ''
+        course: "",
+        code: "",
       },
       courses: [],
       students: [],
-      submitted: false
-    }
+      submitted: false,
+      csv: [],
+    };
   },
-  mounted () {
-    this.getCourses()
-  
+  mounted() {
+    this.getCourses();
   },
   methods: {
-    getCourses () {
-      let lecturerId = localStorage.getItem('Id')
+    getCourses() {
+      let lecturerId = localStorage.getItem("Id");
       this.$http
         .get(`http://localhost/JessieProject/lectCourse?id=${lecturerId}`)
-        .then(res => {
-          this.courses = res.data
-        })
+        .then((res) => {
+          this.courses = res.data;
+        });
     },
-    getStudents () {
+    getStudents() {
       this.$http
         .get(
           `http://localhost/JessieProject/getRegister?id=${this.form.course}`
         )
-        .then(res => {
-          this.students = res.data
-        })
+        .then((res) => {
+          this.students = res.data;
+        });
     },
-  
 
-    getCSV(){
+    getCSV() {
       this.$http
         .get(`http://localhost/JessieProject/exportCSV?id=${this.form.course}`)
-        .then(res => {
-           console.log(res.data)
-        })
-    }
-  }
-}
+        .then((res) => {
+          this.csv = res.data;
+        });
+    },
+  },
+};
 </script>
