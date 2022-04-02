@@ -6,16 +6,6 @@
         <div class="container col-8 offset-3">
           <h4 class="text-white text-center">Select Course For Attendance</h4>
 
-          <vue-blob-json-csv
-            @success="handleSuccess"
-            @error="handleError"
-            file-type="csv"
-            file-name="AttendanceRegister"
-            :data="csv"
-          >
-           <button class="btn btn-primary"> Download CSV </button>
-          </vue-blob-json-csv>
-
           <div class="input-group mb-3 w-50 mx-auto">
             <label class="mb-2"> Select Course </label>
             <b-form-select
@@ -41,6 +31,18 @@
               </option>
             </b-form-select>
           </div>
+          <span v-show="csv.length !== 0">
+            <vue-blob-json-csv
+              @success="handleSuccess"
+              @error="handleError"
+              file-type="csv"
+              file-name="AttendanceRegister"
+              :data="csv"
+              confirm="Do you want to download it?"
+            >
+              <button class="btn btn-primary">Download CSV</button>
+            </vue-blob-json-csv>
+          </span>
           <h4 class="text-white text-center">Students</h4>
           <table class="table mt-5 text-white" v-if="students.length != 0">
             <thead>
