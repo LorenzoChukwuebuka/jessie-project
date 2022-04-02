@@ -11,7 +11,7 @@
             <b-form-select
               class="px-2 py-2 pb-2 mt-2 mb-3 w-100"
               v-model="form.course"
-              @change="getStudents(), takeAttendance()"
+              @change="getStudents(), getCSV()"
             >
               <template #first>
                 <b-form-select-option
@@ -67,7 +67,7 @@
           </table>
           <small v-else>
             <p class="text-center text-white">
-              No student has registered for this course
+              No student has attended lectures  for this course
             </p>
           </small>
         </div>
@@ -95,6 +95,7 @@ export default {
   },
   mounted () {
     this.getCourses()
+  
   },
   methods: {
     getCourses () {
@@ -108,22 +109,19 @@ export default {
     getStudents () {
       this.$http
         .get(
-          `http://localhost/JessieProject/studentcourse?id=${this.form.course}`
+          `http://localhost/JessieProject/getRegister?id=${this.form.course}`
         )
         .then(res => {
           this.students = res.data
         })
     },
-    takeAttendance () {
-      if (!this.form.code) return false
-      let data = new Object()
-      data.courseId = this.form.course
-      data.attendanceCode = this.form.code
+  
 
+    getCSV(){
       this.$http
-        .post('http://localhost/JessieProject/attendance', data)
+        .get(`http://localhost/JessieProject/exportCSV?id=${this.form.course}`)
         .then(res => {
-           this.$swal(res.data.message)
+           console.log(res.data)
         })
     }
   }
